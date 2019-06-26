@@ -1,7 +1,6 @@
 import re
 import argparse
 import requests
-from xml.etree.ElementTree import fromstring
 
 class NotValidIDError(Exception):
     def __init__(self, id, message):

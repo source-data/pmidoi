@@ -46,7 +46,7 @@ class PMID(ID):
 
 class JournalTitle:
     '''
-    The title of a Journal
+    The title of a Journal.
     '''
 
     _title = ''
@@ -59,7 +59,7 @@ class JournalTitle:
 
 class Journal:
     '''
-    Created with a JournalTitle, populates  set of PMID
+    Created with a string representing the title of the journal.
     '''
 
     def __init__(self, journal_title:str):
@@ -109,9 +109,10 @@ class TabbedIDs:
 
     def save(self, filename):
         s = self.format(self.article_list)
+        print(f"\n\nExtracted ids from {len(self.article_list)} articles.")
         with open(filename, 'w') as f: 
             f.write(s)
-            print(f"\n\nResults saved to {filename}.\n\n")
+            print(f"\nResults saved to {filename}.\n\n")
 
 class EuropePMC:
     '''

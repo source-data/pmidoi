@@ -4,7 +4,7 @@ with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="vsearch",
+    name="listids",
     version="0.0.1",
     python_requires='>=3.6',
     author="Thomas Lemberger",

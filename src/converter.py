@@ -40,7 +40,7 @@ class DOI(ID):
     reg = re.compile(id_regexp)
 
 class PMID(ID):
-    id_regexp = r'\d{8}'
+    id_regexp = r'^\d+$'
     reg = re.compile(id_regexp)
 
 
@@ -84,15 +84,6 @@ class Journal:
         assert len(articles) == hit_count, f"len(results) {len(articles)} != hit_count {hit_count}"    
         return articles
 
-class TabbedIDs:
-
-    def __init__(self, article_list):
-        self.article_list = article_list
-    
-    def out(self):
-        l = ["\t".join([str(a.pmid), str(a.doi)]) for a in self.article_list]
-        s = "\n".join(l)
-        return s
 
 class Article:
 
@@ -106,6 +97,20 @@ class Article:
         except KeyError:
             self.pmid = None
 
+class TabbedIDs:
+
+    def __init__(self, article_list):
+        self.article_list = article_list
+    
+    def format(self, article_list, delim="\t", eol="\n"):
+        l = [delim.join([str(a.pmid), str(a.doi)]) for a in article_list]
+        s = eol.join(l)
+        return s
+
+    def save(self, filename):
+        s = self.format(self.article_list)
+        with open(filename, 'w') as f: 
+            f.write(s)
 
 class EuropePMC:
     '''
@@ -135,13 +140,14 @@ class EuropePMC:
 def main():
     parser = argparse.ArgumentParser(description='Extracting pmid - doi table for a given journal.', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('journal_title', nargs='?', default='', help='The title of the journal')
+    parser.add_argument('save_to', nargs='?', default='pmidoi.txt', help='The file to save the extracted id list.')
     args = parser.parse_args()
     journal_title = args.journal_title
+    filename = args.save_to
     journal = Journal(journal_title)
     articles = journal.list_article()
     pmid_doi = TabbedIDs(articles)
-    print("pmid\tdoi\n")
-    print(pmid_doi.out())
+    pmid_doi.save(filename)
 
 if __name__ == '__main__':
     main()

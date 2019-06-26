@@ -46,8 +46,8 @@ class TestConverter(unittest.TestCase):
         ]
         
         tab_list = "12345678\t10.1234/2338\n87654321\t10.4321/aer1234"
-
-        self.assertEqual(TabbedIDs(article_list).out(), tab_list)
+        tabbedIDs = TabbedIDs(article_list)
+        self.assertEqual(tabbedIDs.format(tabbedIDs.article_list), tab_list)
 
 if __name__ == '__main__':
     unittest.main()

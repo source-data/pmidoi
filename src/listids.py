@@ -113,9 +113,31 @@ class TabbedIDs:
         s = eol.join([header] + l)
         return s
 
+    def report(self, article_list):
+        empty_pmid = 0
+        empty_doi = 0
+        empty_both = 0
+        complete = 0
+        for a in article_list:
+            if a.doi is None:
+                empty_doi += 1
+            if a.pmid is None:
+                empty_pmid += 1 
+            if a.pmid is None and a.doi is None:
+                empty_both += 1
+            if a.pmid is not None and a.doi is not None:
+                complete += 1
+        return empty_doi, empty_pmid, empty_both, complete
+
+
     def save(self, filename):
         s = self.format(self.article_list)
-        print(f"\n\nExtracted ids from {len(self.article_list)} articles.")
+        print(f"\n\nExtracted ids from {len(self.article_list)} articles:\n")
+        empty_doi, empty_pmid, empty_both, complete = self.report(self.article_list)
+        print(f"- {empty_doi} with no doi")
+        print(f"- {empty_pmid} with no pmid")
+        print(f"- {empty_both} with no doi and no pmid")
+        print(f"- {complete} with both pmid and doi")
         with open(filename, 'w') as f: 
             f.write(s)
             print(f"\nResults saved to {filename}.\n\n")

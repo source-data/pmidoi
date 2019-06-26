@@ -13,7 +13,7 @@ class ID:
     '''
     An identifier.
     '''
-    id_regexp = ''
+    id_regexp = '.'
     reg = re.compile(id_regexp)
     _str = None
     
@@ -96,6 +96,11 @@ class Article:
             self.pmid = PMID(j['pmid'])
         except KeyError:
             self.pmid = None
+        try:
+            self.id = ID(j['id']) # the id provided by default in any case by EuropePMC
+        except KeyError:
+            self.pmcid = None
+
 
 class TabbedIDs:
 
@@ -103,8 +108,9 @@ class TabbedIDs:
         self.article_list = article_list
     
     def format(self, article_list, delim="\t", eol="\n"):
-        l = [delim.join([str(a.pmid), str(a.doi)]) for a in article_list]
-        s = eol.join(l)
+        header = delim.join(['pmid', 'doi', 'id'])
+        l = [delim.join([str(a.pmid), str(a.doi), str(a.id)]) for a in article_list]
+        s = eol.join([header] + l)
         return s
 
     def save(self, filename):

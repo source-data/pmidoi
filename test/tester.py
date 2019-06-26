@@ -41,11 +41,11 @@ class TestConverter(unittest.TestCase):
             ]
 
         article_list = [
-            Article({'doi':'10.1234/2338', 'pmid': '12345678'}),
-            Article({'doi':'10.4321/aer1234', 'pmid': '87654321'}),
+            Article({'doi':'10.1234/2338', 'pmid': '12345678', 'id': 'sdfs'}),
+            Article({'doi':'10.4321/aer1234', 'pmid': '87654321', 'id': 'werwer'}),
         ]
         
-        tab_list = "12345678\t10.1234/2338\n87654321\t10.4321/aer1234"
+        tab_list = "pmid\tdoi\tid\n12345678\t10.1234/2338\tsdfs\n87654321\t10.4321/aer1234\twerwer"
         tabbedIDs = TabbedIDs(article_list)
         self.assertEqual(tabbedIDs.format(tabbedIDs.article_list), tab_list)
 

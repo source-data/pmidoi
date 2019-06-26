@@ -1,5 +1,5 @@
 import unittest
-from src.converter import NotValidIDError, DOI, PMID, EuropePMC, JournalTitle, Journal, Article, TabbedIDs
+from src.listids import NotValidIDError, DOI, PMID, EuropePMC, JournalTitle, Journal, Article, TabbedIDs
 
 class TestConverter(unittest.TestCase):
 
@@ -49,5 +49,8 @@ class TestConverter(unittest.TestCase):
         tabbedIDs = TabbedIDs(article_list)
         self.assertEqual(tabbedIDs.format(tabbedIDs.article_list), tab_list)
 
-if __name__ == '__main__':
+def main():
     unittest.main()
+
+if __name__ == '__main__':
+    main()
